@@ -30,3 +30,4 @@ if train_pair_B:
     print(f"The accuracy is {acc[0]}, over {ntimes} different seeds")
 
     print("Succeeding distinguishing Pair B, we are done!")
+    print("Hi")
