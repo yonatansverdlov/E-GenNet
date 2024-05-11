@@ -249,9 +249,7 @@ def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> Dict:
                            task=task,
                            descriptors=full_dataset.descriptors)
     print("Done splitting to train,test,val.")
-    output = {'train_dl': train_dl, 'test_dl': test_dl, 'val_dl': val_dl, 'mean': mean, 'std': std,
-              'scales': full_dataset.scales}
-    output = EasyDict(output)
+    output = EasyDict({'train_dl': train_dl, 'test_dl': test_dl, 'val_dl': val_dl, 'mean': mean, 'std': std})
     # Return the data dictionary.
     return output
 

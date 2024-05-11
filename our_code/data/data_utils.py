@@ -284,7 +284,7 @@ def create_k_chains(k: int) -> Data:
         [[4, 5 * (k - 1) + 3, 0]]
     )
     points = Data(pos=torch.stack([pos1, pos2]), adjacency_matrix=torch.stack([edge_index, edge_index]),
-                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ), scale=1.0)
+                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ))
 
     return points
 
