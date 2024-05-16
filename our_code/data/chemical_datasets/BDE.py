@@ -1,5 +1,5 @@
 """
-Kraken dataset.
+BDE dataset.
 """
 
 from collections import defaultdict
@@ -18,34 +18,60 @@ from .ensemble import EnsembleDataset
 class BDE(EnsembleDataset):
     descriptors = ['BindingEnergy']
 
-    def __init__(self, root, max_num_conformers=None, transform=None, pre_transform=None, pre_filter=None):
-        self.max_num_conformers = max_num_conformers
-        super().__init__(root=root, transform=transform, pre_transform=pre_transform, pre_filter=pre_filter)
+    def __init__(self, root: str):
+        """
+        Inits BDE set.
+        Args:
+            root: The root to BDE raw data.
+        """
+        super().__init__(root=root)
         out = torch.load(self.processed_paths[0])
         self.data, self.slices, self.y = out
         self.descriptors = ['BindingEnergy']
 
     def get(self, idx: int) -> BaseData:
+        """
+        Gets the sample.
+        Args:
+            idx: The index.
+
+        Returns: The data object.
+
+        """
         return super().get(idx=idx)
 
     @property
-    def processed_file_names(self):
-        return 'BDE_processed.pt' if self.max_num_conformers is None \
-            else f'BDE_{self.max_num_conformers}_processed.pt'
+    def processed_file_names(self) -> str:
+        """
+        Returns the BDE processed path.
+        """
+        return 'BDE_processed.pt'
 
     @property
-    def raw_file_names(self):
+    def raw_file_names(self) -> str:
+        """
+        Returns the BDE raw path.
+        """
         return 'BDE.zip'
 
     @property
-    def num_molecules(self):
+    def num_molecules(self) -> int:
+        """
+        Returns: The number of mols.
+        """
         return self.y.shape[0]
 
     @property
-    def num_conformers(self):
+    def num_conformers(self) -> int:
+        """
+        Returns: Number of conformers.
+        """
         return len(self)
 
-    def process(self):
+    def process(self) -> None:
+        """
+        Processes the raw data.
+        """
         data_list = []
 
         raw_file = self.raw_paths[0]

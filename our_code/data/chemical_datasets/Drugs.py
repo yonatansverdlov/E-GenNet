@@ -17,12 +17,13 @@ from .ensemble import EnsembleDataset
 class Drugs(EnsembleDataset):
     descriptors = ['ip', 'ea', 'chi']
 
-    def __init__(self, root: str, max_num_conformers: Optional[int] = None, transform=None,
-                 pre_transform=None,
-                 pre_filter=None):
-        self.max_num_conformers = max_num_conformers
-        super().__init__(root=root, transform=transform, pre_transform=pre_transform, pre_filter=pre_filter,
-                         num_tasks=3)
+    def __init__(self, root: str):
+        """
+        Stores the root.
+        Args:
+            root: The root to the data.
+        """
+        super().__init__(root=root)
 
     @property
     def processed_file_names(self):
@@ -47,7 +48,7 @@ class Drugs(EnsembleDataset):
         """
         return len(self)
 
-    def process(self):
+    def process(self)->None:
         data_list = []
         quantities = self.descriptors
 
@@ -87,11 +88,6 @@ class Drugs(EnsembleDataset):
         for name, mol_list in tqdm(molecules.items()):
             row = labels[labels['name'] == name]
             y.append(torch.Tensor([row[quantity].item() for quantity in quantities]))
-
-            if self.max_num_conformers is not None:
-                # sort energy and take the lowest energy conformers
-                mol_list = sorted(mol_list, key=lambda x: x.y[:, quantities.index('energy')].item())
-                mol_list = mol_list[:self.max_num_conformers]
 
             for mol in mol_list:
                 mol.molecule_idx = cursor

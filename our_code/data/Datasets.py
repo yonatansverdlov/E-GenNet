@@ -7,6 +7,9 @@ from torch.utils.data import Dataset as torchDataset
 from torch_geometric.data import Dataset
 
 from our_code.data.data_utils import group_same_size, batch_same_size, create_k_chains, create_pair_A, create_pair_B
+from torch_geometric.data import Data
+from typing import Dict
+import easydict
 
 
 class BatchDataSet(Dataset):
@@ -32,24 +35,23 @@ class BatchDataSet(Dataset):
                                             task=self.task)
         self.size = len(self.batched_data)  # batched version, a datapoint is a data_obj.
 
-    def get(self, index):
+    def get(self, index) -> Data:
         # to get the whole batched data.
         return self.batched_data[index]
 
-    def len(self):
+    def len(self) -> int:
+        # Returns length.
         return self.size
 
     def __repr__(self) -> str:
         return f"Batched_Drugs(batch_size={self.batch_size}, size={self.size})"
 
-    def reshuffle_grouped_dataset(self, seed: int = 0):
+    def reshuffle_grouped_dataset(self, seed: int = 0) -> None:
         """
         Reshuffles the dataset.
-        Returns:
-
         """
+        random.seed(seed)
         for i, group in self.grouped_data:
-            random.seed(seed)
             random.shuffle(group)
 
         self.batched_data = batch_same_size(grouped_dataset=self.grouped_data, batch_size=self.batch_size,
@@ -57,7 +59,10 @@ class BatchDataSet(Dataset):
 
 
 class k_chain_dataset(torchDataset):
-    def __init__(self, config):
+    """
+    All k_chain experiments dataset.
+    """
+    def __init__(self, config: easydict):
         """
         Creates dataset object, given a tuple type.
         Args:

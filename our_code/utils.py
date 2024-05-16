@@ -1,5 +1,5 @@
 """
-Our kchain_utils file.
+Utils file.
 """
 import datetime
 import os
@@ -13,8 +13,8 @@ import yaml
 from easydict import EasyDict
 from torch_geometric.loader import DataLoader
 
-from our_code.data.Datasets import BatchDataSet
-from our_code.data.Datasets import k_chain_dataset
+from .data.Datasets import BatchDataSet
+from .data.Datasets import k_chain_dataset
 from .data.chemical_datasets.BDE import BDE
 from .data.chemical_datasets.Drugs import Drugs
 from .data.chemical_datasets.Kraken import Kraken
@@ -54,7 +54,7 @@ def return_dataloader(config: EasyDict, types: str, path_to_project: Path) -> Di
     if types in ['k_chain']:
         dataloaders = return_classification_loader(config=config)
 
-    elif types in ['Kraken', 'Drugs', 'BDE']:
+    else:
         dataloaders = return_drugs_loaders(config=config,
                                            path_to_project=path_to_project)
 
@@ -88,7 +88,7 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
     model_dir = os.path.join(path_to_project,
                              f'data/models_new/{config.type}/{task}/'
                              f'{model_path}')
-    print(model_dir)
+    print(f"Saving into: {model_dir}")
     # Save the code script.
     if not os.path.exists(os.path.join(model_dir, 'code')):
         shutil.copytree(Path(os.path.abspath(__file__)).parent.parent, os.path.join(model_dir, 'code'))
@@ -105,17 +105,18 @@ def return_callbacks(model_dir: str, metric_track: str,
         types: The data type.
         save_top_k: The save top k.
 
-    Returns:
+    Returns: The Callbacks.
 
     """
     # The callbacks.
     # The model checkpoint.
+    mode = 'max' if metric_track == 'acc' and types == 'k_chain' else 'min'
     callbacks = [pl.callbacks.ModelCheckpoint(dirpath=model_dir,
                                               filename='{epoch}-f{val_loss:.5f}' if metric_track == 'loss' else
                                               '{epoch}-f{val_acc:.5f}',
                                               save_top_k=save_top_k,
                                               monitor=f'val_{metric_track}',
-                                              save_last=True, mode='max' if metric_track == 'acc' else 'min')]
+                                              save_last=True, mode=mode)]
 
     # For drugs shuffling.
     if types not in ['k_chain']:
@@ -192,7 +193,7 @@ def train_model(config: EasyDict, types: str, metric_track: str, task: str,
     return wrapped_model, trainer, dataloaders, ckpt
 
 
-def return_classification_loader(config: EasyDict) -> Dict[str, DataLoader]:
+def return_classification_loader(config: EasyDict) -> EasyDict:
     """
     Given tuple type, we return the dataloader.
     Args:
@@ -210,7 +211,7 @@ def return_classification_loader(config: EasyDict) -> Dict[str, DataLoader]:
     return EasyDict(dataloaders)
 
 
-def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> Dict:
+def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> EasyDict:
     """
     Returns drug loader.
     Args:
@@ -248,7 +249,7 @@ def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> Dict:
     test_dl = BatchDataSet(test_set, batch_size=2 * config.type_config.task_specific[task].bs,
                            task=task,
                            descriptors=full_dataset.descriptors)
-    print("Done splitting to train,test,val.")
+    print("Done splitting to train, test, val.")
     output = EasyDict({'train_dl': train_dl, 'test_dl': test_dl, 'val_dl': val_dl, 'mean': mean, 'std': std})
     # Return the data dictionary.
     return output
@@ -267,16 +268,17 @@ def number_of_params(model: torch.nn.Module) -> int:
     return sum(p.numel() for p in model.parameters())
 
 
-def train_type_n_times(task: str, types: str,
-                       metric_track='acc', train: bool = True, ntimes: int = 1) -> torch.float:
+def train_type_n_times(task: str, types: str, fix_seed: bool,
+                       metric_track='acc', train: bool = True, num_times: int = 1) -> torch.float:
     """
 
     Args:
         task: The task.
+        fix_seed: Whether to fix seed to repeated experiments. 
         types: The tuple type.
         metric_track: What to track, acc/loss.
         train: Whether train/test.
-        ntimes: The number of times.
+        num_times: The number of times.
 
     Returns: The accuracy overall seeds.
 
@@ -288,9 +290,10 @@ def train_type_n_times(task: str, types: str,
     with open(os.path.join(path, f'data/config_files/General_config.yaml')) as f:
         general_config = EasyDict(yaml.safe_load(f)['General_config'])
     print("Loaded the config files!")
-    for i in range(ntimes):
+    for i in range(num_times):
         config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
-        config.type_config.common_to_all_tasks.seed = i
+        if fix_seed:
+            config.type_config.common_to_all_tasks.seed = i
         wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
                                                                 config=config,
                                                                 train=train, task=task)
@@ -302,4 +305,4 @@ def train_type_n_times(task: str, types: str,
         val_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.val_dl, track='acc')
         train_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.train_dl, track='acc')
 
-    return test_acc / ntimes, val_acc / ntimes, train_acc / ntimes
+    return test_acc / num_times, val_acc / num_times, train_acc / num_times

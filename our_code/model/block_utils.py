@@ -1,5 +1,5 @@
 """
-The block kchain_utils.
+Activations.
 """
 import torch.nn as nn
 

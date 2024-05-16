@@ -73,7 +73,6 @@ class NormEmbedding(nn.Module):
 
         """
         # Norm difference.
-        # print(pos.shape)
         pos_difference = pos.unsqueeze(1) - pos.unsqueeze(2)  # (B, N, N, 3)
         # The norm.
         relative_norm = torch.norm(pos_difference, dim=-1, keepdim=True)  # (B, N, N, 1)
@@ -81,32 +80,35 @@ class NormEmbedding(nn.Module):
         relative_norm_embedding = self.norm_embedding(relative_norm)  # (B, N, N, norm_dim)
         # Multiply by adjacency to see only the visible entries.
         relative_norm_embedding *= adjacency_matrix.squeeze(-1)
-        # relative_norm_embedding = relative_norm_embedding * adjacency_matrix.squeeze(-1)
         # Unsqueeze.
         pos_difference = pos_difference.unsqueeze(-1)
         return relative_norm_embedding, pos_difference, relative_norm.unsqueeze(-1)
 
 
 class EdgeFeatureEmbedding(nn.Module):
-    def __init__(self, emb_dim: int, seed: int):
+    def __init__(self, emb_dim: int, seed: int, num_edge_features: int):
         """
         Edge embedding.
         Args:
             emb_dim: The embedding dim.
             seed: The seed.
+            num_edge_features: Number of edge attributes.
         """
         super(EdgeFeatureEmbedding, self).__init__()
         self.seed = seed
+        self.num_edge_features = num_edge_features
+
         self.edge_embedding_list = torch.nn.ModuleList(
-            [nn.Embedding(num_embeddings=10, embedding_dim=emb_dim, padding_idx=0) for _ in range(3)])
+            [nn.Embedding(num_embeddings=10, embedding_dim=emb_dim, padding_idx=0) for _ in
+             range(self.num_edge_features)])
         self.init_parameters()
 
-    def init_parameters(self):
+    def init_parameters(self) -> None:
         """
         Inits params.
         """
         torch.manual_seed(self.seed)
-        for i in range(3):
+        for i in range(self.num_edge_features):
             emb = self.edge_embedding_list[i]
             torch.nn.init.xavier_uniform_(emb.weight.data)
             emb._fill_padding_idx_with_zero()
@@ -122,7 +124,7 @@ class EdgeFeatureEmbedding(nn.Module):
         """
 
         x_embedding: Tensor = 0
-        for i in range(3):
+        for i in range(self.num_edge_features):
             x_embedding += self.edge_embedding_list[i](edge_feature[:, :, :, i])
         return x_embedding
 
@@ -134,6 +136,8 @@ class NodeFeatureEmbedding(torch.nn.Module):
         Args:
             emb_dim: The embedding dim.
             seed: The seed.
+            num_atoms_type: Number of atom types.
+            max_features: The maximal feature.
         """
         super(NodeFeatureEmbedding, self).__init__()
         self.seed = seed
@@ -179,10 +183,9 @@ class EmbedDistanceMatrixAndFeatures(nn.Module):
             config: The config dictionary.
         """
         super().__init__()
-        #
         edge_dim_emb = config.type_config.common_to_all_tasks.edge_emb_dim
         node_embedding_dim = config.type_config.common_to_all_tasks.node_emb_dim
-        activation_fn = return_all_activation_funcs(config.general_config.init_activation)  # nn.SiLU()
+        activation_fn = return_all_activation_funcs(config.general_config.init_activation)
         seed = config.type_config.common_to_all_tasks.seed
         torch.manual_seed(seed)
         self.node_feature_embeddings = nn.ModuleList(
@@ -266,7 +269,8 @@ class InitialEmbedding(nn.Module):
         self.combine_distance_node_and_edge_features = EmbedDistanceMatrixAndFeatures(config=config)
 
         self.edge_feature_embedding = EdgeFeatureEmbedding(emb_dim=config.type_config.common_to_all_tasks.edge_emb_dim,
-                                                           seed=self.seed)
+                                                           seed=self.seed,
+                                                           num_edge_features=config.type_config.common_to_all_tasks.num_edge_features)
 
     def forward(self, data_obj: Data) -> Tuple[Tensor, Tensor]:
         """
@@ -277,7 +281,6 @@ class InitialEmbedding(nn.Module):
         Returns: The initial embedding.
 
         """
-        # print(data_obj.pos.shape)
         # The point cloud, adjacency, node feature, edge feature.
         point_cloud, adjacency_matrix, node_features, edge_features = (data_obj.pos, data_obj.adjacency_matrix,
                                                                        data_obj.node_features, data_obj.edge_attr)
@@ -293,29 +296,3 @@ class InitialEmbedding(nn.Module):
                                                                      norm_embedding=norm_embedding,
                                                                      edge_features=edge_feature_embedding)
         return all_embedding, relative_point_cloud
-
-
-class InitialEmbeddingWithoutZ(nn.Module):
-    def __init__(self, config: EasyDict):
-        """
-        Initial block without node feature.
-        Args:
-            config: The config dictionary.
-        """
-        super().__init__()
-        self.config = config
-
-    @staticmethod
-    def forward(data_obj: Data) -> Tuple[Tensor, Tensor]:
-        """
-        Compute forward.
-        Args:
-            data_obj: The data object.
-
-        Returns: The node embedding and relative point cloud.
-
-        """
-        point_cloud, adjacency_matrix = data_obj.pos, data_obj.adjacency_matrix
-        relative_point_cloud = (point_cloud[:, None] - point_cloud[:, :, None])
-        norm = torch.norm(relative_point_cloud, dim=-1).unsqueeze(-1)  # I.
-        return norm, relative_point_cloud.unsqueeze(-1)

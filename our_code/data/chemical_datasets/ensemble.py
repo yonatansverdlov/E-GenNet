@@ -7,9 +7,13 @@ from torch_geometric.data import InMemoryDataset
 
 
 class EnsembleDataset(InMemoryDataset):
-    def __init__(self, root: str, num_tasks: int = 1, transform=None, pre_transform=None, pre_filter=None):
-        super().__init__(root, transform, pre_transform, pre_filter)
-        self.scales = [1.0 for _ in range(num_tasks)]
+    def __init__(self, root: str):
+        """
+        Inits Ensemble dataset.
+        Args:
+            root: The root.
+        """
+        super().__init__(root)
         out = torch.load(self.processed_paths[0])
         self.data, self.slices, self.y = out
 
@@ -17,7 +21,7 @@ class EnsembleDataset(InMemoryDataset):
         """
         The mean.
         Args:
-            target: The id.
+            target: The task id.
 
         Returns: The mean label.
 
@@ -39,6 +43,9 @@ class EnsembleDataset(InMemoryDataset):
         target_id = self.descriptors.index(target)
         return float(y[:, target_id].std())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """
+        Repr of the class.
+        """
         return f'{self.__class__.__name__}: ' \
                f'{self.num_molecules} molecules, {self.num_conformers} conformers'

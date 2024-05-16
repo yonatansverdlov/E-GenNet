@@ -18,19 +18,15 @@ class GenericBlock(nn.Module):
     Generic block.
     """
 
-    def __init__(self, config: EasyDict, dims: list, block_id: int, num_channels_for_input=1):
+    def __init__(self, config: EasyDict, dims: list, block_id: int):
         """
         Single equivariant block.
         Args:
             config: The config file.
             dims: The dims.
             block_id: The block id.
-            num_channels_for_input: Number of channels for input.
         """
-
         super().__init__()
-        # Number of channels for input
-        self.num_channels = num_channels_for_input
         # The dims.
         self.dims = dims
         # Save config.
@@ -44,15 +40,15 @@ class GenericBlock(nn.Module):
         # Fix the seed.
         torch.manual_seed(self.seed)
         # Input channel.
-        self.input_channels = self.dims[block_id]
+        self.input_channels = self.dims[self.block_id]
         # Output channels.
-        self.output_channels = self.dims[block_id + 1]
+        self.output_channels = self.dims[self.block_id + 1]
         # The theta parameters.
-        self.theta = nn.Parameter(torch.empty(self.input_channels + self.num_channels, self.output_channels))
+        self.theta = nn.Parameter(torch.empty(self.input_channels + 1, self.output_channels))
         # The alpha beta weight.
         self.alpha_beta_weight = nn.Linear(1, self.output_channels)
         # The weight for norm transform.
-        self.norm_transformation = nn.Linear(self.input_channels + self.num_channels, 1)
+        self.norm_transformation = nn.Linear(self.input_channels + 1, 1)
         # Init params.
         self.init_parameters()
         # The alpha parameter.
@@ -65,31 +61,19 @@ class GenericBlock(nn.Module):
         self.use_all_norms = (self.config.type_config.task_specific[self.task].use_all_norms and
                               self.block_id in range(start, end))
 
-        # Init params.
-
     def init_parameters(self) -> None:
         """
         Initializes theta with xavier distribution.
         """
+        # Fix seed.
         torch.manual_seed(self.seed)
+        # Init theta.
         torch.nn.init.xavier_uniform_(self.theta.data)
+        # Init alpha beta and norm transform.
         if self.config.type_config.task_specific[self.task].alpha_beta_init == 'xavier':
             torch.nn.init.xavier_uniform_(self.alpha_beta_weight.weight)
         if self.config.type_config.task_specific[self.task].norm_weight_init == 'xavier':
             torch.nn.init.xavier_uniform_(self.norm_transformation.weight)
-
-    def norm_transform(self, norms: Tensor) -> Tensor:
-        """
-        Norm transformation
-        Args:
-            norms: The norm tensor.
-
-        Returns: The transformed one.
-
-        """
-        out = self.norm_transformation(norms)
-
-        return out
 
     def compute_p_alpha_beta(self, norm_and_feature: Tensor) -> Tensor:
         """
@@ -120,16 +104,18 @@ class GenericBlock(nn.Module):
         Returns: The new geometric information. Tensor of shape [data_obj,n,channels_out,dim].
 
         """
-        # Compute P_alpha_beta.
+
         # Compute geometric_information * theta2.
-        geometric_information_double = geometric_information.unsqueeze(1).expand(-1, geometric_information.size(1), -1, -1, -1)
+        geometric_information_double = geometric_information.unsqueeze(1).expand(-1, geometric_information.size(1), -1,
+                                                                                 -1, -1)
         # Cat geometric_information anf x_i - x_j
         embed_x_and_g = torch.cat([geometric_information_double, relative_point_cloud], dim=-1)
-        # Multiply by adjacency.
-        # Compute geometric_information * theta.
+        # Compute norm transform.
         if self.block_id != 0 and self.use_all_norms:
-            embed_pc_and_features = self.norm_transform(norms=torch.norm(embed_x_and_g, dim=-2)) + embed_pc_and_features
+            embed_pc_and_features = self.norm_transformation(torch.norm(embed_x_and_g, dim=-2)) + embed_pc_and_features
+        # Compute P_alpha_beta.
         p_alpha_beta = self.compute_p_alpha_beta(norm_and_feature=embed_pc_and_features)
+        # Multiply by theta.
         embed_x_and_g_with_adjacency = embed_x_and_g @ self.theta
         # Compute P_alpha_beta * geometric_information * theta.
         new_geometric_information = (
@@ -166,11 +152,13 @@ class IHash(nn.Module):
         self.orthogonal_weight = nn.Linear(self.output_dim, self.input_dim).weight
         self.init_parameters()
 
-    def init_parameters(self):
+    def init_parameters(self) -> None:
         """
         Inits params.
         """
+        # Fix seed.
         torch.manual_seed(self.seed)
+        # Init.
         torch.nn.init.xavier_uniform_(self.orthogonal_weight)
 
     def forward(self, equivariant_feature: Tensor) -> Tensor:
@@ -184,6 +172,7 @@ class IHash(nn.Module):
         """
         # Compute the geometric_information * O.
         output = equivariant_feature @ self.orthogonal_weight
+        # Compute norm.
         output = torch.norm(output, dim=-2)
         # Compute the norm_and_feature of the output.
         return output
@@ -265,7 +254,6 @@ class Dense(nn.Module):
             out_features: The out feature.
             bias: Whether to use bias.
             activation_fn: The activation function.
-            use_layer_norm: Whether to use norm layer.
         """
         super().__init__()
         assert activation_fn is not None

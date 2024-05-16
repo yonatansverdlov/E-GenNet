@@ -1,5 +1,5 @@
 """
-Data kchain_utils.
+Data utils.
 """
 
 from typing import List, Tuple
@@ -284,7 +284,9 @@ def create_k_chains(k: int) -> Data:
         [[4, 5 * (k - 1) + 3, 0]]
     )
     points = Data(pos=torch.stack([pos1, pos2]), adjacency_matrix=torch.stack([edge_index, edge_index]),
-                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ))
+                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ),
+                  node_features=torch.zeros((2, 1, 1), dtype=torch.int),
+                  edge_attr=torch.zeros((2, 1, 1, 1), dtype=torch.int))
 
     return points
 
@@ -308,7 +310,7 @@ def create_pair_A(k: int) -> Data:
         directon = directon * scale
         first_vector = first_vector + directon
         pc.append(first_vector)
-    # Last point coordiantes.
+    # Last point coordinates.
     x, y, z = first_vector[0], first_vector[1], first_vector[2]
     # Before the last.
     before_last = torch.tensor([x + 0.75, y, z]) * scale
@@ -330,7 +332,9 @@ def create_pair_A(k: int) -> Data:
     edge_index = create_k_chains(k=k).adjacency_matrix
     points = Data(pos=torch.stack([pos1, pos2]),
                   adjacency_matrix=edge_index,
-                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ))
+                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ),
+                  node_features=torch.zeros((2, 1, 1), dtype=torch.int),
+                  edge_attr=torch.zeros((2, 1, 1, 1), dtype=torch.int))
     return points
 
 
@@ -372,5 +376,7 @@ def create_pair_B(k: int) -> Data:
     edge_index = create_k_chains(k=k).adjacency_matrix
     points = Data(pos=torch.stack([pos1, pos2]),
                   adjacency_matrix=edge_index,
-                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ))
+                  label=torch.tensor([0, 1], dtype=torch.long).view(2, ),
+                  node_features=torch.zeros((2, 1, 1), dtype=torch.int),
+                  edge_attr=torch.zeros((2, 1, 1, 1), dtype=torch.int))
     return points
