@@ -78,7 +78,7 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
     path_to_project = Path(os.path.abspath(__file__)).parent.parent.parent
     # The params to store by.
     params = ['lr', 'wd', 'cooldown', 'bs', 'gamma', 'alpha_beta_init',
-              'num_blocks', 'intermediate_dim', 'accumulate_grad_batches', 'use_all_norms', 'norm_weight_init', 'seed']
+              'num_blocks', 'intermediate_dim', 'accumulate_grad_batches', 'use_all_norms', 'norm_weight_init']
     # Init.
     model_path = 'Model_'
     # Add all params.

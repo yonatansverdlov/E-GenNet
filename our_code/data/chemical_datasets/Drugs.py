@@ -27,8 +27,7 @@ class Drugs(EnsembleDataset):
 
     @property
     def processed_file_names(self):
-        return 'DrugsEnsemble_processed.pt' if self.max_num_conformers is None \
-            else f'DrugsEnsemble_processed_{self.max_num_conformers}.pt'
+        return 'DrugsEnsemble_processed.pt'
 
     @property
     def raw_file_names(self) -> str:

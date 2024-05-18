@@ -100,8 +100,6 @@ class BDE(EnsembleDataset):
                     if self.pre_transform is not None:
                         data = self.pre_transform(data)
 
-                    if self.max_num_conformers is not None and mols_count[idx][data.name] > self.max_num_conformers:
-                        continue
                     mols[data.name].append(data)
                     mols_count[idx][data.name] += 1
 
