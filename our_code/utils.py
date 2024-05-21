@@ -269,7 +269,7 @@ def number_of_params(model: torch.nn.Module) -> int:
 
 
 def train_type_n_times(task: str, types: str, fix_seed: bool,
-                       metric_track='acc', train: bool = True, num_times: int = 1) -> torch.float:
+                       metric_track='acc', train: bool = True, num_times: int = 1,epochs = 1500) -> torch.float:
     """
 
     Args:
@@ -279,6 +279,7 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,
         metric_track: What to track, acc/loss.
         train: Whether train/test.
         num_times: The number of times.
+        epochs: Number of epochs to train.
 
     Returns: The accuracy overall seeds.
 
@@ -294,6 +295,7 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,
         config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
         if fix_seed:
             config.type_config.common_to_all_tasks.seed = i
+        config.general_config.max_epochs = epochs
         wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
                                                                 config=config,
                                                                 train=train, task=task)

@@ -119,7 +119,7 @@ class GenericBlock(nn.Module):
         embed_x_and_g_with_adjacency = embed_x_and_g @ self.theta
         # Compute P_alpha_beta * geometric_information * theta.
         new_geometric_information = (
-                (embed_x_and_g_with_adjacency * p_alpha_beta.unsqueeze(-2)) * adjacency_matrix).sum(2) / self.output_channels
+                (embed_x_and_g_with_adjacency * p_alpha_beta.unsqueeze(-2)) * adjacency_matrix).sum(2)
         return new_geometric_information
 
 
