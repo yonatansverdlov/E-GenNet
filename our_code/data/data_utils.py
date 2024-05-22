@@ -178,7 +178,7 @@ def mol_to_data_obj(mol) -> Data:
 
     return data
 
-
+# Taken from https://github.com/GraphPKU/DisGNN.
 def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, batch_size: int) \
         -> List[Data]:
     """
@@ -221,7 +221,7 @@ def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, ba
 
     return batched_dataset
 
-
+# Taken from https://github.com/GraphPKU/DisGNN.
 def group_same_size(dataset: Dataset) -> List[Tuple[int, List[Data]]]:
     """
     Group dataset into point clouds of same size.
@@ -256,7 +256,7 @@ def group_same_size(dataset: Dataset) -> List[Tuple[int, List[Data]]]:
 
     return grouped_dataset
 
-
+# Taken from https://github.com/chaitjo/geometric-gnn-dojo.
 def create_k_chains(k: int) -> Data:
     """
 
