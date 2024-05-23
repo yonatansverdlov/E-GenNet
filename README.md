@@ -13,7 +13,7 @@ Short description of your project.
 - [Contact](#contact)
 - [Authors](#authors)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 
 ## About
 
@@ -22,6 +22,7 @@ Motivated by applications in chemistry and other sciences, we study the expressi
 ## Installation
 
 # Pip
+```bash
 conda create --name egenet -c conda-forge python=3.11
 
 conda activate egenet
@@ -37,21 +38,34 @@ pip install easydict
 pip install pandas
 
 pip install rdkit
-
+```
 
 
 ## Usage
+## Sanity Check
+For a sanity check of our model, please run 
 
+python sanity_check.py
+## Experiments
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
 ## Syntetic experiments.
 
 We add a link to the Colab notebook illustrating our results and baselines.
 The link: 
-## Chemical properties
+## Chemical properties 
+## Data 
+For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
 
-cd scripts
+And put it in /data.
+## Training
+The options are Drugs, Kraken, BDE.
+Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
+Example of run:
+```bash
+cd script
 
-python chemical_property_exps.py 
+python chemical_property_exps.py --dataset 'Kraken' --task 'B5'
+```
 ## Contributing
 
 Explain how others can contribute to your project. Include guidelines for submitting bug reports, feature requests, and code contributions. You can also include information about your coding style, code of conduct, and how to set up a development environment.
