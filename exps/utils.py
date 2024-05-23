@@ -89,7 +89,7 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
                              f'data/models_new/{config.type}/{task}/'
                              f'{model_path}')
     print(f"Saving into: {model_dir}")
-    # Save the code script.
+    # Save the code exps.
     if not os.path.exists(os.path.join(model_dir, 'code')):
         shutil.copytree(Path(os.path.abspath(__file__)).parent.parent, os.path.join(model_dir, 'code'))
     return path_to_project, model_dir

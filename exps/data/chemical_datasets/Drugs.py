@@ -12,7 +12,7 @@ from rdkit import Chem
 from torch_geometric.data import extract_zip
 from tqdm import tqdm
 
-from our_code.data.data_utils import mol_to_data_obj
+from ..data_utils import mol_to_data_obj
 from .ensemble import EnsembleDataset
 
 

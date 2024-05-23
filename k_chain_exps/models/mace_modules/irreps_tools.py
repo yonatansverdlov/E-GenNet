@@ -60,7 +60,7 @@ def linear_out_irreps(irreps: o3.Irreps, target_irreps: o3.Irreps) -> o3.Irreps:
     return o3.Irreps(irreps_mid)
 
 
-@compile_mode("script")
+@compile_mode("exps")
 class reshape_irreps(torch.nn.Module):
     def __init__(self, irreps: o3.Irreps) -> None:
         super().__init__()

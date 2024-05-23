@@ -1,12 +1,12 @@
 """
-Sanity Checking script.
+Sanity Checking exps.
 We show all intermediate and final output are equivariant and invariant.
 """
 import os
 from easydict import EasyDict
 import yaml
 from pathlib import Path
-from script.model.models import InvariantGenericNet
+from exps.model.models import InvariantGenericNet
 
 types = 'sanity_check'
 

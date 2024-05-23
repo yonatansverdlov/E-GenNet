@@ -11,8 +11,8 @@ from rdkit import Chem
 from torch_geometric.data import extract_zip
 from torch_geometric.data.data import BaseData
 from tqdm import tqdm
+from ..data_utils import mol_to_data_obj
 
-from our_code.data.data_utils import mol_to_data_obj
 from .ensemble import EnsembleDataset
 
 
