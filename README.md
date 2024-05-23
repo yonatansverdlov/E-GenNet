@@ -22,6 +22,7 @@ Motivated by applications in chemistry and other sciences, we study the expressi
 ## Installation
 
 # Pip
+```bash
 conda create --name egenet -c conda-forge python=3.11
 
 conda activate egenet
@@ -37,7 +38,7 @@ pip install easydict
 pip install pandas
 
 pip install rdkit
-
+```
 
 
 ## Usage
