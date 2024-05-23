@@ -43,6 +43,12 @@ pip install rdkit
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
 ## Syntetic experiments.
 
+We add a link to the Colab notebook illustrating our results and baselines.
+The link: 
+## Chemical properties
+
+cd scripts
+python chemical_property_exps.py 
 ## Contributing
 
 Explain how others can contribute to your project. Include guidelines for submitting bug reports, feature requests, and code contributions. You can also include information about your coding style, code of conduct, and how to set up a development environment.
