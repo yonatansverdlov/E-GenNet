@@ -51,6 +51,7 @@ The link:
 ## Chemical properties 
 ## Data 
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
+
 And put it in /data.
 ## Training
 The options are Drugs, Kraken, BDE.
