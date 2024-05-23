@@ -46,6 +46,7 @@ pip install rdkit
 For a sanity check of our model, please run 
 
 python sanity_check.py
+## Experiments
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
 ## Syntetic experiments.
 
