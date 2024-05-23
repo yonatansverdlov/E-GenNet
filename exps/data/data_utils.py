@@ -137,6 +137,7 @@ def bond_to_feature_vector(bond):
     return bond_feature
 
 
+
 def mol_to_data_obj(mol) -> Data:
     """
     Mol to data object.
@@ -178,6 +179,25 @@ def mol_to_data_obj(mol) -> Data:
 
     return data
 
+def compute_power_graph(graph, times:int):
+    # Compute power graph.
+    # Return the graph.
+    batch = graph.size(0)
+    if times == 1:
+        return graph
+    if times == 2:
+        # Compute the second power of G.
+        n = graph.size(1)
+        eye = torch.eye(n).unsqueeze(0).repeat(batch,1,1)
+        double = (eye + graph) @ (eye + graph)
+        double[double > 1] = 1
+        double = double - torch.eye(n, n)
+        return double
+    else:
+        # Recursively compute the power graph times - 1 and multiply by G.
+        power_times_minus_1 = compute_power_graph(graph, times - 1)
+        return compute_power_graph(power_times_minus_1, 2)
+
 # Taken from https://github.com/GraphPKU/DisGNN.
 def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, batch_size: int) \
         -> List[Data]:
@@ -207,7 +227,9 @@ def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, ba
             # Normalize.
             pos = (pos - pos.mean(1).unsqueeze(1))
             # Adjacency.
-            adjacency_matrix = torch.cat([ToAdj(batch[j].edge_index) for j in range(len(batch))])[:, :, :, None, None]
+            adjacency_matrix = torch.cat([ToAdj(batch[j].edge_index) for j in range(len(batch))])
+
+            adjacency_matrix = compute_power_graph(adjacency_matrix,2)[:, :, :, None, None]
             # Edge feature.
             edge_feature = torch.cat([ToAdj(edge_index=batch[j].edge_index, edge_attr=batch[j].edge_attr + 1) for j in
                                       range(len(batch))]).long()
