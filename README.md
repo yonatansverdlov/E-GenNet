@@ -57,7 +57,8 @@ python k_chain_exps.py
 ```
 ## Baselines
 For baselines, we add a link to the Colab notebook illustrating our results and baselines.
-The link: 
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 ## Chemical properties 
 ## Data 
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
