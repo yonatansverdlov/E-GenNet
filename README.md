@@ -13,7 +13,7 @@ Short description of your project.
 - [Contact](#contact)
 - [Authors](#authors)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 
 ## About
 
