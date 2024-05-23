@@ -58,13 +58,14 @@ For the Kraken, Drugs, and BDE datasets, please download them from https://githu
 
 And put it in /data.
 ## Training
+In order to run, use python chemical_property_exps.py dataset task
 The options are Drugs, Kraken, BDE.
 Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
 Example of run:
 ```bash
 cd script
 
-python chemical_property_exps.py --dataset 'Kraken' --task 'B5'
+python chemical_property_exps.py Kraken B5
 ```
 ## Contributing
 
