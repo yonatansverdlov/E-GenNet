@@ -48,6 +48,7 @@ The link:
 ## Chemical properties
 
 cd scripts
+
 python chemical_property_exps.py 
 ## Contributing
 
