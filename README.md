@@ -19,20 +19,29 @@ Motivated by applications in chemistry and other sciences, we study the expressi
 
 ## Installation
 
-| Command                                      | Description                                          |
-|----------------------------------------------|------------------------------------------------------|
-| conda create --name egenet -c conda-forge python=3.11 | Create a conda environment named egenet with Python 3.11 |
-| conda activate egenet                       | Activate the egenet environment                      |
-| pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 | Install PyTorch and its dependencies                |
-| pip install torch_geometric                  | Install PyTorch Geometric library                     |
-| pip install pytorch-lightning                | Install PyTorch Lightning library                     |
-| pip install easydict                         | Install EasyDict library                              |
-| pip install pandas                           | Install Pandas library                                 |
-| pip install rdkit                            | Install RDKit library                                  |
+# Pip
+conda create --name egenet -c conda-forge python=3.11
+
+conda activate egenet
+
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+pip install torch_geometric
+
+pip install pytorch-lightning
+
+pip install easydict
+
+pip install pandas
+
+pip install rdkit
+
+
 
 ## Usage
 
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
+## Syntetic experiments.
 
 ## Contributing
 
