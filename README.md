@@ -49,8 +49,14 @@ python sanity_check.py
 ## Experiments
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
 ## Syntetic experiments.
-
-We add a link to the Colab notebook illustrating our results and baselines.
+## Our results.
+In order to run our results, please run the following:
+```bash
+cd script
+python k_chain_exps.py
+```
+## Baselines
+For baselines, we add a link to the Colab notebook illustrating our results and baselines.
 The link: 
 ## Chemical properties 
 ## Data 
