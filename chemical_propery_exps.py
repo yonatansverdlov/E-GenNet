@@ -7,8 +7,7 @@ arg_parse = True
 if arg_parse:
     types = str(sys.argv[1])
     task = str(sys.argv[2])
-else\
-        :
+else:
     # Can be Drugs, BDE, Kraken.
 
     types = 'BDE'
