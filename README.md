@@ -49,7 +49,7 @@ We add a link to the Colab notebook illustrating our results and baselines.
 The link: 
 ## Chemical properties
 
-cd scripts
+cd script
 
 python chemical_property_exps.py 
 ## Contributing
