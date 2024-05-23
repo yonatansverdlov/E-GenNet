@@ -10,6 +10,16 @@ from torch import Tensor
 
 class InvariantAbstractNet(nn.Module):
 
+    def return_random_obj(self):
+        num_mols = 10
+        pos = torch.rand((num_mols,num_mols,3))
+        adjacency_matrix = torch.ones((num_mols,num_mols,num_mols,1,1))
+        obj = Data(pos=pos,
+             adjacency_matrix=adjacency_matrix,
+             node_features=torch.zeros((num_mols, 1, 1), dtype=torch.int),
+             edge_attr=torch.zeros((num_mols, 1, 1, 1), dtype=torch.int))
+        return obj
+
     def o_3_invariant_forward(self, data_obj: Data) -> Tensor:
         """
         Forward the equivariant and then the invariant feature, to have Sn equivariant model and O(3) orbit injective.

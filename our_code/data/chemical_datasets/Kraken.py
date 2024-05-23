@@ -1,4 +1,5 @@
 """
+Taken https://github.com/SXKDZ/MARCEL.
 Kraken dataset.
 """
 
@@ -12,7 +13,8 @@ from tqdm import tqdm
 from our_code.data.data_utils import mol_to_data_obj
 from .ensemble import EnsembleDataset
 
-# Taken https://github.com/SXKDZ/MARCEL.
+
+
 class Kraken(EnsembleDataset):
     descriptors = ['B5', 'L', 'burB5', 'burL']
 
