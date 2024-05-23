@@ -13,7 +13,7 @@ Short description of your project.
 - [Contact](#contact)
 - [Authors](#authors)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 
 ## About
 
@@ -49,22 +49,30 @@ python sanity_check.py
 ## Experiments
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
 ## Syntetic experiments.
+## Our results.
+In order to run our results, please run the following:
+```bash
+cd script
+python k_chain_exps.py
+```
+## Baselines
+For baselines, we add a link to the Colab notebook illustrating our results and baselines.
 
-We add a link to the Colab notebook illustrating our results and baselines.
-The link: 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 ## Chemical properties 
 ## Data 
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
 
 And put it in /data.
 ## Training
+In order to run, use python chemical_property_exps.py dataset task
 The options are Drugs, Kraken, BDE.
 Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
 Example of run:
 ```bash
 cd script
 
-python chemical_property_exps.py --dataset 'Kraken' --task 'B5'
+python chemical_property_exps.py Kraken B5
 ```
 ## Contributing
 
