@@ -6,7 +6,7 @@ import os
 from easydict import EasyDict
 import yaml
 from pathlib import Path
-from our_code.model.models import InvariantGenericNet
+from script.model.models import InvariantGenericNet
 
 types = 'sanity_check'
 

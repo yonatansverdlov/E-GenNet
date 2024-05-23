@@ -2,7 +2,7 @@
 The training of chemical properties.
 """
 
-from our_code.utils import train_type_n_times
+from script.utils import train_type_n_times
 
 # Can be Drugs, BDE, Kraken.
 
