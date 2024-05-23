@@ -21,12 +21,19 @@ Motivated by applications in chemistry and other sciences, we study the expressi
 
 # Pip
 conda create --name egenet -c conda-forge python=3.11
+
 conda activate egenet
+
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
 pip install torch_geometric
+
 pip install pytorch-lightning
+
 pip install easydict
+
 pip install pandas
+
 pip install rdkit
 
 
