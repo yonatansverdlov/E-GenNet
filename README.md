@@ -50,13 +50,13 @@ We add a link to the Colab notebook illustrating our results and baselines.
 The link: 
 ## Chemical properties 
 ## Data 
-For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL. And put it in /data.
+For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
+And put it in /data.
 ## Training
 The options are Drugs, Kraken, BDE.
-For Drugs, the chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
+Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
 Example of run:
 ```bash
-
 cd script
 
 python chemical_property_exps.py --dataset 'Kraken' --task 'B5'
