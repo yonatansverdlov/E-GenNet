@@ -17,7 +17,9 @@ Short description of your project.
 
 ## About
 
-Motivated by applications in chemistry and other sciences, we study the expressive power of message-passing neural networks for geometric graphs, whose node features correspond to 3-dimensional positions. 
+Motivated by applications in chemistry and other sciences, we study the expressive power of message-passing neural networks for geometric graphs. 
+
+We showed the generic expressiveness power of I-GGNNs and E-GGNNs and illustrate it via the Google-Colab notebook.
 
 ## Installation
 
@@ -39,7 +41,6 @@ pip install pandas
 
 pip install rdkit
 ```
-
 
 ## Usage
 ## Sanity Check
@@ -92,6 +93,6 @@ You can email yonatans@campus.technion.ac.il
 
 ## Authors
 
-Yonatan Sverdlov
+Yonatan Sverdlov: yonatans@campus.technion.ac.il
 
-Nadav Dym
+Nadav Dym: nadavdum@technion.ac.il
