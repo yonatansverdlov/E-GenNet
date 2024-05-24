@@ -227,9 +227,7 @@ def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, ba
             # Normalize.
             pos = (pos - pos.mean(1).unsqueeze(1))
             # Adjacency.
-            adjacency_matrix = torch.cat([ToAdj(batch[j].edge_index) for j in range(len(batch))])
-
-            adjacency_matrix = compute_power_graph(adjacency_matrix,2)[:, :, :, None, None]
+            adjacency_matrix = torch.cat([ToAdj(batch[j].edge_index) for j in range(len(batch))])[:, :, :, None, None]
             # Edge feature.
             edge_feature = torch.cat([ToAdj(edge_index=batch[j].edge_index, edge_attr=batch[j].edge_attr + 1) for j in
                                       range(len(batch))]).long()

@@ -10,11 +10,11 @@ if arg_parse:
 else:
     # Can be Drugs, BDE, Kraken.
 
-    types = 'Kraken'
+    types = 'Drugs'
     # Choose B5 but could be also burL, burB5, L.
-    task = 'B5'
+    task = 'ip'
 
-test_acc, val_acc, train_acc = train_type_n_times(types=types, task=task, metric_track='acc', fix_seed=False,epochs=1500)
+test_acc, val_acc, train_acc = train_type_n_times(types=types, task=task, metric_track='acc', fix_seed=False,epochs=1000)
 
 print(f"Train acc {train_acc} in task {task}")
 
