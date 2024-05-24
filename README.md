@@ -21,7 +21,7 @@ Motivated by applications in chemistry and other sciences, we study the expressi
 
 ## Installation
 
-# Pip
+# Conda
 ```bash
 conda create --name egenet -c conda-forge python=3.11
 
@@ -46,9 +46,11 @@ pip install rdkit
 For a sanity check of our model, please run 
 
 python sanity_check.py
+
 ## Experiments
 The repository consists of two main parts: synthetic experiments and chemical properties prediction.
-## Syntetic experiments.
+## Synthetic experiments.
+We illustrate our results via terminal and the baselines via Google-Colab.
 ## Our results.
 In order to run our results, please run the following:
 ```bash
@@ -61,9 +63,10 @@ For baselines, we add a link to the Colab notebook illustrating our results and 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 ## Chemical properties 
 ## Data 
-For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
+For the Kraken, Drugs, and BDE datasets, please download it from https://github.com/SXKDZ/MARCEL.
 
 And put it in /data.
+
 ## Training
 In order to run, use python chemical_property_exps.py dataset task
 The options are Drugs, Kraken, BDE.
@@ -74,9 +77,6 @@ cd script
 
 python chemical_property_exps.py Kraken B5
 ```
-## Contributing
-
-Explain how others can contribute to your project. Include guidelines for submitting bug reports, feature requests, and code contributions. You can also include information about your coding style, code of conduct, and how to set up a development environment.
 
 ## License
 
@@ -84,12 +84,14 @@ Include information about the license under which your project is distributed. Y
 
 ## Acknowledgements
 
-If your project uses third-party libraries, services, or resources, you can acknowledge them here.
+We would like to thank Idan Tankel for his great help and discussion during the project.
 
 ## Contact
 
-Provide contact information for users to reach out to you with questions, feedback, or other inquiries.
+You can email yonatans@campus.technion.ac.il
 
 ## Authors
 
-List the authors or contributors of the project.
+Yonatan Sverdlov
+
+Nadav Dym

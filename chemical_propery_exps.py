@@ -14,7 +14,7 @@ else:
     # Choose B5 but could be also burL, burB5, L.
     task = 'B5'
 
-test_acc, val_acc, train_acc = train_type_n_times(types=types, task=task, metric_track='acc', fix_seed=False,epochs=10)
+test_acc, val_acc, train_acc = train_type_n_times(types=types, task=task, metric_track='acc', fix_seed=False,epochs=1500)
 
 print(f"Train acc {train_acc} in task {task}")
 
