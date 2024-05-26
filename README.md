@@ -61,14 +61,14 @@ For baselines, we add a link to the Colab notebook illustrating our tasks, resul
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 ## Chemical properties 
-- Data 
+- Data:
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL, and should be put in /data.
 
-- Training
+- Training:
 In order to run, use python chemical_property_exps.py --dataset_name name --task task.
 
 The options are Drugs, Kraken, BDE.
-Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
+Drugs' chemical properties are ip, ea, chi,for Kraken B5, L,burB5, burL, and for BDE BindingEnergy.
 Example of run:
 ```bash
 cd script
