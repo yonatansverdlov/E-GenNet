@@ -19,7 +19,7 @@ Short description of your project.
 
 Motivated by applications in chemistry and other sciences, we study the expressive power of message-passing neural networks for geometric graphs. 
 
-We showed the generic expressiveness power of I-GGNNs and E-GGNNs and illustrate it via the Google-Colab notebook.
+This reposetory illustrates our findings via sparse separation, power graph experiments, and prediction of chemical properties.
 
 ## Installation
 
@@ -42,50 +42,42 @@ pip install pandas
 pip install rdkit
 ```
 
-## Usage
-## Sanity Check
+## Usage.
+- Sanity Check
 For a sanity check of our model, please run 
-
+```bash
+cd script
 python sanity_check.py
-
-## Experiments
-The repository consists of two main parts: synthetic experiments and chemical properties prediction.
+```
 ## Synthetic experiments.
-We illustrate our results via terminal and the baselines via Google-Colab.
-## Our results.
+In this section, we illustrate our ability to separate the sparsest graphs, and then we show our model can separate pairs. No I-GGNN can separate, and a pair no I-GGNN can separate even when considering cross edges.
+We illustrate our results here and the baselines via Google-Colab.
 In order to run our results, please run the following:
 ```bash
 cd script
 python k_chain_exps.py
 ```
-## Baselines
-For baselines, we add a link to the Colab notebook illustrating our results and baselines.
+For baselines, we add a link to the Colab notebook illustrating our tasks, results and baselines.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 ## Chemical properties 
-## Data 
-For the Kraken, Drugs, and BDE datasets, please download it from https://github.com/SXKDZ/MARCEL.
+- Data:
+For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL, and should be put in /data.
 
-And put it in /data.
+- Training:
+In order to run, use python chemical_property_exps.py --dataset_name name --task task.
 
-## Training
-In order to run, use python chemical_property_exps.py dataset task
 The options are Drugs, Kraken, BDE.
-Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
+Drugs' chemical properties are ip, ea, chi,for Kraken B5, L,burB5, burL, and for BDE BindingEnergy.
 Example of run:
 ```bash
 cd script
-
-python chemical_property_exps.py Kraken B5
+python chemical_property_exps.py --dataset_name Kraken --task B5
 ```
-
-## License
-
-Include information about the license under which your project is distributed. You can also include a link to the full text of the license.
 
 ## Acknowledgements
 
-We would like to thank Idan Tankel for his great help and discussion during the project.
+We thank Idan Tankel for his great help and discussion during the project.
 
 ## Contact
 
