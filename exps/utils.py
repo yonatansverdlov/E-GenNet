@@ -268,19 +268,15 @@ def number_of_params(model: torch.nn.Module) -> int:
     return sum(p.numel() for p in model.parameters())
 
 
-def train_type_n_times(task: str, types: str, fix_seed: bool,
-                       metric_track='acc', train: bool = True, num_times: int = 1,epochs = 1500) -> torch.float:
+def train_type_n_times(task: str, types: str,
+                       metric_track='acc', train: bool = True) -> torch.float:
     """
 
     Args:
         task: The task.
-        fix_seed: Whether to fix seed to repeated experiments. 
         types: The tuple type.
         metric_track: What to track, acc/loss.
         train: Whether train/test.
-        num_times: The number of times.
-        epochs: Number of epochs to train.
-
     Returns: The accuracy overall seeds.
 
     """
@@ -291,20 +287,17 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,
     with open(os.path.join(path, f'data/config_files/General_config.yaml')) as f:
         general_config = EasyDict(yaml.safe_load(f)['General_config'])
     print("Loaded the config files!")
-    for i in range(num_times):
-        config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
-        if fix_seed:
-            config.type_config.common_to_all_tasks.seed = i
-        config.general_config.max_epochs = epochs
-        wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
-                                                                config=config,
-                                                                train=train, task=task)
-        # Load the best model and test it.
-        checkpoint = torch.load(ckpt.best_model_path)
-        wrapped_model.load_state_dict(checkpoint['state_dict'])
+    config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
+    wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
+                                                            config=config,
+                                                            train=train, task=task)
+    # Load the best model and test it.
+    checkpoint = torch.load(ckpt.best_model_path)
+    wrapped_model.load_state_dict(checkpoint['state_dict'])
 
-        test_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.test_dl, track='acc')
-        val_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.val_dl, track='acc')
-        train_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.train_dl, track='acc')
+    test_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.test_dl, track='acc')
+    val_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.val_dl, track='acc')
+    train_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.train_dl, track='acc')
 
-    return test_acc / num_times, val_acc / num_times, train_acc / num_times
+
+    return test_acc, val_acc, train_acc
