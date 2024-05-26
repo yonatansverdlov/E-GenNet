@@ -48,7 +48,7 @@ For a sanity check of our model, please run
 
 python sanity_check.py
 
-- Synthetic experiments.
+## Synthetic experiments.
 In this section, we illustrate our ability to separate the sparsest graphs, and then we show our model can separate pairs. No I-GGNN can separate, and a pair no I-GGNN can separate even when considering cross edges.
 We illustrate our results here and the baselines via Google-Colab.
 In order to run our results, please run the following:
@@ -59,7 +59,7 @@ python k_chain_exps.py
 For baselines, we add a link to the Colab notebook illustrating our tasks, results and baselines.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
-- Chemical properties 
+## Chemical properties 
 - Data 
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL.
 
