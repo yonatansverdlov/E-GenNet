@@ -65,7 +65,8 @@ For baselines, we add a link to the Colab notebook illustrating our tasks, resul
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL, and should be put in /data.
 
 - Training
-In order to run, use python chemical_property_exps.py --dataset_name name --task task
+In order to run, use python chemical_property_exps.py --dataset_name name --task task.
+
 The options are Drugs, Kraken, BDE.
 Drugs' chemical properties are ip, ea, chi, Kraken B5, L,burB5, burL, and BDE BindingEnergy.
 Example of run:
