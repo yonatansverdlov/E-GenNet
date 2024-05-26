@@ -43,7 +43,7 @@ pip install rdkit
 ```
 
 ## Usage
-## Sanity Check
+- Sanity Check
 For a sanity check of our model, please run 
 
 python sanity_check.py
