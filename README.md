@@ -45,9 +45,10 @@ pip install rdkit
 ## Usage.
 - Sanity Check
 For a sanity check of our model, please run 
-
+```bash
+cd script
 python sanity_check.py
-
+```
 ## Synthetic experiments.
 In this section, we illustrate our ability to separate the sparsest graphs, and then we show our model can separate pairs. No I-GGNN can separate, and a pair no I-GGNN can separate even when considering cross edges.
 We illustrate our results here and the baselines via Google-Colab.
