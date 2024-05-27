@@ -42,19 +42,17 @@ pip install pandas
 pip install rdkit
 ```
 
-## Usage.
+## Usage
 - Sanity Check
 For a sanity check of our model, please run 
 ```bash
-cd script
 python sanity_check.py
 ```
-## Synthetic experiments.
+## Synthetic experiments
 In this section, we illustrate our ability to separate the sparsest graphs, and then we show our model can separate pairs. No I-GGNN can separate, and a pair no I-GGNN can separate even when considering cross edges.
 We illustrate our results here and the baselines via Google-Colab.
 In order to run our results, please run the following:
 ```bash
-cd script
 python k_chain_exps.py
 ```
 For baselines, we add a link to the Colab notebook illustrating our tasks, results and baselines.
@@ -67,8 +65,9 @@ For the Kraken, Drugs, and BDE datasets, please download them from https://githu
 - Training:
 In order to run, use python chemical_property_exps.py --dataset_name name --task task.
 
+- options:
 The options are Drugs, Kraken, BDE.
-Drugs' chemical properties are ip, ea, chi,for Kraken B5, L,burB5, burL, and for BDE BindingEnergy.
+Drugs' chemical properties are ip, ea, chi, for Kraken B5, L,burB5, burL, and for BDE BindingEnergy.
 Example of run:
 ```bash
 cd script
