@@ -70,7 +70,6 @@ The options are Drugs, Kraken, BDE.
 Drugs' chemical properties are ip, ea, chi, for Kraken B5, L,burB5, burL, and for BDE BindingEnergy.
 Example of run:
 ```bash
-cd script
 python chemical_property_exps.py --dataset_name Kraken --task B5
 ```
 
@@ -86,4 +85,4 @@ You can email yonatans@campus.technion.ac.il
 
 Yonatan Sverdlov: yonatans@campus.technion.ac.il
 
-Nadav Dym: nadavdum@technion.ac.il
+Nadav Dym: nadavdym@technion.ac.il
