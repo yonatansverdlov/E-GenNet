@@ -26,6 +26,6 @@ BDE:
       accumulate_grad_batches: 2
       alpha_beta_init: xavier
       use_all_norms: True
-      norm_weight_init: uniform # Doesn't matter.
+      norm_weight_init: uniform
       block_ids: [0,5]
 

@@ -51,6 +51,8 @@ python sanity_check.py
 ## Synthetic experiments
 In this section, we illustrate our ability to separate the sparsest graphs, and then we show our model can separate pairs. No I-GGNN can separate, and a pair no I-GGNN can separate even when considering cross edges.
 We illustrate our results here and the baselines via Google-Colab.
+In our experiments we show we succeed separating the k-chain pairs for 10 different seeds.
+Next, we show our model can separate pair-A, pair-B pairs I-GGNN struggle to separate.
 In order to run our results, please run the following:
 ```bash
 python k_chain_exps.py
@@ -59,6 +61,7 @@ For baselines, we add a link to the Colab notebook illustrating our tasks, resul
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yonatansverdlov/E-GenNet/blob/master/k_chains_baselines.ipynb)
 ## Chemical properties 
+Here, we show our results on predicting chemical properties. We present our train/test/val accuracy.
 - Data:
 For the Kraken, Drugs, and BDE datasets, please download them from https://github.com/SXKDZ/MARCEL, and should be put in /data.
 

@@ -19,11 +19,11 @@ sanity_check:
       s_n_output_dim: 20
       lr: 0.001
       wd: 0.00001
-      gamma: .85 # 0.75
+      gamma: .85
       bs: 20
       cooldown: 15
       accumulate_grad_batches: 2
       alpha_beta_init: xavier
       use_all_norms: True
-      norm_weight_init: uniform # Doesn't always matter.
+      norm_weight_init: uniform
       block_ids: [0,6]
