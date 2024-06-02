@@ -5,7 +5,6 @@ import sys
 import argparse
 from exps.utils import train_type_n_times
 
-arg_parse = False
 parser = argparse.ArgumentParser(description='QM9 Example')
 parser.add_argument('--dataset_name', type=str, default='Kraken',
                     help='experiment_name')
