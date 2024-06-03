@@ -3,9 +3,9 @@ The training of chemical properties.
 """
 import sys
 import argparse
-from exps.utils import train_type_n_times
+from our_exps.utils import train_type_n_times
 
-parser = argparse.ArgumentParser(description='QM9 Example')
+parser = argparse.ArgumentParser(description='Drugs Example')
 parser.add_argument('--dataset_name', type=str, default='Kraken',
                     help='experiment_name')
 parser.add_argument('--task', type=str, default='B5',
