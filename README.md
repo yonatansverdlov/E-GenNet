@@ -69,6 +69,13 @@ In order to run, use python chemical_property_exps.py --dataset_name name --task
 - options:
 The options are Drugs, Kraken, BDE.
 Drugs' chemical properties are ip, ea, chi, for Kraken B5, L,burB5, burL, and for BDE BindingEnergy.
+|Drugs| Kraken | BDE |
+|---------|-------|------|
+| ip     | B5   |   BindingEnergy   |
+| ea  | L |      |
+| chi   | burL  |      |
+|   |    burB5   |      |
+
 Example of run:
 ```bash
 python chemical_property_exps.py --dataset_name Kraken --task B5
