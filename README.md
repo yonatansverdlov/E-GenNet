@@ -1,7 +1,5 @@
 # On the Expressive Power of Sparse Geometric MPNNs
 
-Short description of your project.
-
 ## Table of Contents
 
 - [About](#about)
