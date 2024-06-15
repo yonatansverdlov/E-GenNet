@@ -1,5 +1,8 @@
 """
 The training of chemical properties.
+Options for Drugs are: ip,ea,chi.
+Options for Kraken are: B5,L,burB5,burL.
+Option for BDE is BindingEnergy.
 """
 import sys
 import argparse
