@@ -12,12 +12,12 @@ class InvariantAbstractNet(nn.Module):
 
     def return_random_obj(self):
         num_mols = 10
-        pos = torch.rand((num_mols,num_mols,3))
-        adjacency_matrix = torch.ones((num_mols,num_mols,num_mols,1,1))
+        pos = torch.rand((num_mols, num_mols, 3))
+        adjacency_matrix = torch.ones((num_mols, num_mols, num_mols, 1, 1))
         obj = Data(pos=pos,
-             adjacency_matrix=adjacency_matrix,
-             node_features=torch.zeros((num_mols, 1, 1), dtype=torch.int),
-             edge_attr=torch.zeros((num_mols, 1, 1, 1), dtype=torch.int))
+                   adjacency_matrix=adjacency_matrix,
+                   node_features=torch.zeros((num_mols, 1, 1), dtype=torch.int),
+                   edge_attr=torch.zeros((num_mols, 1, 1, 1), dtype=torch.int))
         return obj
 
     def o_3_invariant_forward(self, data_obj: Data) -> Tensor:
@@ -50,10 +50,12 @@ class InvariantAbstractNet(nn.Module):
         first_rotation = self.forward(data_obj=data_obj)
         norm = torch.norm(first_rotation - before_rotation)
         if norm < tolerance:
-            print(f"The difference is {norm} which is less than {tolerance}, so our model is indeed rotation invariant.")
+            print(
+                f"The difference is {norm} which is less than {tolerance}, so our model is indeed rotation invariant.")
         else:
-            print(f"The difference is {norm} which is more than {tolerance}, so our model is not rotation invariant, check "
-                  f"again your model!.")
+            print(
+                f"The difference is {norm} which is more than {tolerance}, so our model is not rotation invariant, check "
+                f"again your model!.")
         return torch.norm(first_rotation - before_rotation)
 
     def check_equivariant_rotation(self, data_obj: Data) -> torch.float:
@@ -73,10 +75,12 @@ class InvariantAbstractNet(nn.Module):
         first_rotation = self.equivariant_model(data_obj).transpose(-1, -2)
         norm = torch.norm(first_rotation - before_rotation)
         if norm < tolerance:
-            print(f"The difference is {norm} which is less than {tolerance}, so our model is indeed rotation equivariant.")
+            print(
+                f"The difference is {norm} which is less than {tolerance}, so our model is indeed rotation equivariant.")
         else:
-            print(f"The difference is {norm} which is more than {tolerance}, so our model is not rotation equivariant, check "
-                  f"again your model!.")
+            print(
+                f"The difference is {norm} which is more than {tolerance}, so our model is not rotation equivariant, check "
+                f"again your model!.")
         return torch.norm(first_rotation - before_rotation)
 
     def check_invariant_permutation(self, data_obj: Data) -> torch.float:
@@ -96,10 +100,12 @@ class InvariantAbstractNet(nn.Module):
         first_permutation = self.forward(data_obj)
         norm = torch.norm(first_permutation - before_perm) / torch.norm(first_permutation)
         if norm < tolerance:
-            print(f"The difference is {norm} which is less than {tolerance}, so our model is indeed permutation invariant.")
+            print(
+                f"The difference is {norm} which is less than {tolerance}, so our model is indeed permutation invariant.")
         else:
-            print(f"The difference is {norm} which is more than {tolerance}, so our model is not permutation invariant, check "
-                  f"again your model!.")
+            print(
+                f"The difference is {norm} which is more than {tolerance}, so our model is not permutation invariant, check "
+                f"again your model!.")
 
         return torch.norm(first_permutation - before_perm) / torch.norm(first_permutation)
 
@@ -119,10 +125,12 @@ class InvariantAbstractNet(nn.Module):
         first_permutation = self.o_3_invariant_forward(data_obj).transpose(1, 0)
         norm = torch.norm(compute_then_permutation - first_permutation)
         if norm < tolerance:
-            print(f"The difference is {norm} which is less than {tolerance}, so our model is indeed permutation equivariant.")
+            print(
+                f"The difference is {norm} which is less than {tolerance}, so our model is indeed permutation equivariant.")
         else:
-            print(f"The difference is {norm} which is more than {tolerance}, so our model is not permutation equivariant, check "
-                  f"again your model!.")
+            print(
+                f"The difference is {norm} which is more than {tolerance}, so our model is not permutation equivariant, check "
+                f"again your model!.")
 
         return norm
 

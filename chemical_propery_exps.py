@@ -4,8 +4,8 @@ Options for Drugs are: ip,ea,chi.
 Options for Kraken are: B5,L,burB5,burL.
 Option for BDE is BindingEnergy.
 """
-import sys
 import argparse
+
 from our_exps.utils import train_type_n_times
 
 parser = argparse.ArgumentParser(description='Drugs Example')
