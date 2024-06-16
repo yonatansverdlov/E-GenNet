@@ -1,0 +1,10 @@
+General_config:
+  activation_fun: TanH
+  mlp_activation: SiLU
+  enable_model_summary: False
+  enable_progress_bar: False
+  init_activation: SiLU
+  rbound_upper: 10
+  save_top_k: 10
+  max_epochs: 1500
+  enable_checkpointing: True

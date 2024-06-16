@@ -1,0 +1,62 @@
+k_chain:
+  common_to_all_tasks:
+    accumulate_grad_batches: 1
+    seed: 0
+    reshuffle_every_n_epochs: 3
+    check_val_every_n_epoch: 2
+    precision: 32
+    edge_emb_dim: 1
+    node_emb_dim: 1
+    num_atoms_type: 1
+    max_features: 1
+    num_edge_features: 1
+  task_specific:
+    classify_original:
+      num_blocks: [ 7 ]
+      intermediate_dim: [ 40 ]
+      o_3_output_dim: 40
+      s_n_output_dim: 40
+      lr: 0.0005
+      wd: 0.00001
+      gamma: .75
+      bs: 1
+      cooldown: 15
+      k: 12
+      accumulate_grad_batches: 1
+      alpha_beta_init: xavier
+      use_all_norms: True
+      norm_weight_init: xavier
+      block_ids: [0,7]
+      seed: 0
+    classify_pair_A:
+      num_blocks: [ 2 ]
+      intermediate_dim: [ 40 ]
+      o_3_output_dim: 40
+      s_n_output_dim: 40
+      lr: 0.0005
+      wd: 0.00001
+      gamma: .75
+      bs: 1
+      cooldown: 15
+      accumulate_grad_batches: 1
+      alpha_beta_init: xavier
+      use_all_norms: True
+      norm_weight_init: xavier
+      block_ids: [ 0,2 ]
+      seed: 0
+    classify_pair_B:
+      num_blocks: [ 3 ]
+      intermediate_dim: [ 40 ]
+      o_3_output_dim: 40
+      s_n_output_dim: 40
+      lr: 0.0005
+      wd: 0.00001
+      gamma: .75
+      bs: 1
+      cooldown: 15
+      accumulate_grad_batches: 1
+      alpha_beta_init: xavier
+      use_all_norms: True
+      norm_weight_init: xavier
+      block_ids: [ 0,2 ]
+      seed: 0
