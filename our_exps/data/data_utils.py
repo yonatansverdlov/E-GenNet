@@ -137,7 +137,6 @@ def bond_to_feature_vector(bond):
     return bond_feature
 
 
-
 def mol_to_data_obj(mol) -> Data:
     """
     Mol to data object.
@@ -179,7 +178,8 @@ def mol_to_data_obj(mol) -> Data:
 
     return data
 
-def compute_power_graph(graph, times:int):
+
+def compute_power_graph(graph, times: int):
     # Compute power graph.
     # Return the graph.
     batch = graph.size(0)
@@ -188,7 +188,7 @@ def compute_power_graph(graph, times:int):
     if times == 2:
         # Compute the second power of G.
         n = graph.size(1)
-        eye = torch.eye(n).unsqueeze(0).repeat(batch,1,1)
+        eye = torch.eye(n).unsqueeze(0).repeat(batch, 1, 1)
         double = (eye + graph) @ (eye + graph)
         double[double > 1] = 1
         double = double - torch.eye(n, n)
@@ -197,6 +197,7 @@ def compute_power_graph(graph, times:int):
         # Recursively compute the power graph times - 1 and multiply by G.
         power_times_minus_1 = compute_power_graph(graph, times - 1)
         return compute_power_graph(power_times_minus_1, 2)
+
 
 # Taken from https://github.com/GraphPKU/DisGNN.
 def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, batch_size: int) \
@@ -241,6 +242,7 @@ def batch_same_size(grouped_dataset: List[Tuple[int, List[Data]]], task: int, ba
 
     return batched_dataset
 
+
 # Taken from https://github.com/GraphPKU/DisGNN.
 def group_same_size(dataset: Dataset) -> List[Tuple[int, List[Data]]]:
     """
@@ -275,6 +277,7 @@ def group_same_size(dataset: Dataset) -> List[Tuple[int, List[Data]]]:
             grouped_dataset.append((curr_data.x.shape[0], group))
 
     return grouped_dataset
+
 
 # Taken from https://github.com/chaitjo/geometric-gnn-dojo.
 def create_k_chains(k: int) -> Data:
