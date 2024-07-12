@@ -75,15 +75,10 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
 
     """
     # The path to project.
-    path_to_project = Path(os.path.abspath(__file__)).parent.parent.parent
-    # The params to store by.
-    params = ['lr', 'wd', 'cooldown', 'bs', 'gamma', 'alpha_beta_init',
-              'num_blocks', 'intermediate_dim', 'accumulate_grad_batches', 'use_all_norms', 'norm_weight_init']
+    path_to_project = Path(os.path.abspath(__file__)).parent.parent
     # Init.
-    model_path = 'Model_'
+    model_path = 'Model_best'
     # Add all params.
-    for param in params:
-        model_path += param + '_' + str(getattr(config.type_config.task_specific[task], param)) + '_'
     # Path to the model dir.
     model_dir = os.path.join(path_to_project,
                              f'data/models_new/{config.type}/{task}/'
@@ -228,7 +223,7 @@ def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> EasyDict:
     # Data mappings.
     dataset_dict = {'Drugs': Drugs, 'Kraken': Kraken, 'BDE': BDE}
     # The all samples dataset.
-    full_dataset = dataset_dict[config.type](root=os.path.join(path_to_project, 'data/'))
+    full_dataset = dataset_dict[config.type](root=os.path.join(path_to_project, 'dataset/'))
     # Size splits.
     train_size, val_size = (config.type_config.common_to_all_tasks.train_size,
                             config.type_config.common_to_all_tasks.val_size)
