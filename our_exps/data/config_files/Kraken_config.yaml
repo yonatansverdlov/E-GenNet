@@ -20,7 +20,7 @@ Kraken:
       lr: 0.001
       wd: 0.00001
       gamma: .85 # 0.75
-      bs: 20
+      bs: 2
       cooldown: 15
       accumulate_grad_batches: 2
       alpha_beta_init: xavier
