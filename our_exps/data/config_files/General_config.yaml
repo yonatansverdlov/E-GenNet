@@ -1,8 +1,8 @@
 General_config:
   activation_fun: TanH
   mlp_activation: SiLU
-  enable_model_summary: False
-  enable_progress_bar: False
+  enable_model_summary: True
+  enable_progress_bar: True
   init_activation: SiLU
   rbound_upper: 10
   save_top_k: 10
