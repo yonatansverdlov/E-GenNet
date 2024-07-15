@@ -15,9 +15,7 @@
 
 ## About
 
-Motivated by applications in chemistry and other sciences, we study the expressive power of message-passing neural networks for geometric graphs. 
-
-This reposetory illustrates our findings via sparse separation, power graph experiments, and prediction of chemical properties.
+Driven by applications in chemistry and various other scientific fields, we investigate the expressive capabilities of message-passing neural networks (MPNNs) for geometric graphs. We demonstrate which graphs invariant and equivariant MPNNs can separate. We found that this separation generically doesn't depend on the point cloud but rather on the graph structure. This repository showcases our results through sparse separation, power graph experiments, and the prediction of chemical properties.
 
 ## Installation
 
