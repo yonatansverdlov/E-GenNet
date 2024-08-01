@@ -73,13 +73,7 @@ Example of run:
 python chemical_property_exps.py --dataset_name Kraken --task B5
 ```
 
-## Acknowledgements
 
-We thank Idan Tankel for his great help and discussion during the project.
-
-## Contact
-
-You can email yonatans@campus.technion.ac.il
 
 ## Authors
 
