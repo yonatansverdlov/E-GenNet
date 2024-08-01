@@ -75,8 +75,3 @@ python chemical_property_exps.py --dataset_name Kraken --task B5
 
 
 
-## Authors
-
-Yonatan Sverdlov: yonatans@campus.technion.ac.il
-
-Nadav Dym: nadavdym@technion.ac.il
