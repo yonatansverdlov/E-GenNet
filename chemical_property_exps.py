@@ -6,7 +6,7 @@ from our_exps.utils import train_type_n_times
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
-parser.add_argument("--types", dest="types", default='Kraken', type=str, choices= ['Kraken','Drugs','BDE'],
+parser.add_argument("--dataset_name", dest="dataset_name", default='Kraken', type=str, choices= ['Kraken','Drugs','BDE'],
                     required=False)
 parser.add_argument("--task", dest="task", default='B5', type=str, choices=['B5','L','burB5','burL','ip','ea','chi'],
                     required=False)
