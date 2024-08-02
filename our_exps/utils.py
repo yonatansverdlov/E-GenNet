@@ -263,7 +263,7 @@ def number_of_params(model: torch.nn.Module) -> int:
     return sum(p.numel() for p in model.parameters())
 
 
-def train_type_n_times(task: str, types: str, fix_seed: bool,batch_size,accum_grad,
+def train_type_n_times(task: str, types: str, fix_seed: bool = False,batch_size = 512,accum_grad = 1,
                        metric_track='acc', train: bool = True, num_times: int = 1,epochs = 1500) -> torch.float:
 
     """
