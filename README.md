@@ -72,6 +72,19 @@ Example of run:
 ```bash
 python chemical_property_exps.py --dataset_name Kraken --task B5
 ```
+## Acknowledgements
 
+We thank Idan Tankel for his great help and discussion during the project.
+
+## Contact
+
+You are more than welcome to send an email yonatans@campus.technion.ac.il
+
+
+## Authors
+
+Yonatan Sverdlov: yonatans@campus.technion.ac.il
+
+Nadav Dym: nadavdym@technion.ac.il
 
 
