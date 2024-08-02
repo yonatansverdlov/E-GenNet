@@ -49,7 +49,7 @@ class Drugs(EnsembleDataset):
         """
         return len(self)
 
-    def process(self)->None:
+    def process(self) -> None:
         data_list = []
         quantities = self.descriptors
 

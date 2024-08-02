@@ -16,8 +16,6 @@ from opt_einsum import contract
 
 from .cg import U_matrix_real
 
-
-@compile_mode("exps")
 class SymmetricContraction(CodeGenMixin, torch.nn.Module):
     def __init__(
         self,

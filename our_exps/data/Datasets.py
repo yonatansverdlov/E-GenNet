@@ -3,12 +3,12 @@ Drugs dataset.
 """
 import random
 
-from torch.utils.data import Dataset as torchDataset
-from torch_geometric.data import Dataset
-from .data_utils import group_same_size, batch_same_size, create_k_chains, create_pair_A, create_pair_B
-from torch_geometric.data import Data
-from typing import Dict
 import easydict
+from torch.utils.data import Dataset as torchDataset
+from torch_geometric.data import Data
+from torch_geometric.data import Dataset
+
+from .data_utils import group_same_size, batch_same_size, create_k_chains, create_pair_A, create_pair_B
 
 
 class BatchDataSet(Dataset):

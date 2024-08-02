@@ -75,21 +75,16 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
 
     """
     # The path to project.
-    path_to_project = Path(os.path.abspath(__file__)).parent.parent.parent
-    # The params to store by.
-    params = ['lr', 'wd', 'cooldown', 'bs', 'gamma', 'alpha_beta_init',
-              'num_blocks', 'intermediate_dim', 'accumulate_grad_batches', 'use_all_norms', 'norm_weight_init']
+    path_to_project = Path(os.path.abspath(__file__)).parent.parent
     # Init.
-    model_path = 'Model_'
+    model_path = 'Model_best'
     # Add all params.
-    for param in params:
-        model_path += param + '_' + str(getattr(config.type_config.task_specific[task], param)) + '_'
     # Path to the model dir.
     model_dir = os.path.join(path_to_project,
                              f'data/models_new/{config.type}/{task}/'
                              f'{model_path}')
     print(f"Saving into: {model_dir}")
-    # Save the code exps.
+    # Save the code our_exps.
     if not os.path.exists(os.path.join(model_dir, 'code')):
         shutil.copytree(Path(os.path.abspath(__file__)).parent.parent, os.path.join(model_dir, 'code'))
     return path_to_project, model_dir
@@ -228,7 +223,7 @@ def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> EasyDict:
     # Data mappings.
     dataset_dict = {'Drugs': Drugs, 'Kraken': Kraken, 'BDE': BDE}
     # The all samples dataset.
-    full_dataset = dataset_dict[config.type](root=os.path.join(path_to_project, 'data/'))
+    full_dataset = dataset_dict[config.type](root=os.path.join(path_to_project, 'dataset/'))
     # Size splits.
     train_size, val_size = (config.type_config.common_to_all_tasks.train_size,
                             config.type_config.common_to_all_tasks.val_size)
@@ -270,17 +265,14 @@ def number_of_params(model: torch.nn.Module) -> int:
 
 def train_type_n_times(task: str, types: str, fix_seed: bool,batch_size,accum_grad,
                        metric_track='acc', train: bool = True, num_times: int = 1,epochs = 1500) -> torch.float:
+
     """
 
     Args:
         task: The task.
-        fix_seed: Whether to fix seed to repeated experiments. 
         types: The tuple type.
         metric_track: What to track, acc/loss.
         train: Whether train/test.
-        num_times: The number of times.
-        epochs: Number of epochs to train.
-
     Returns: The accuracy overall seeds.
 
     """
@@ -291,6 +283,7 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,batch_size,accum_gr
     with open(os.path.join(path, f'data/config_files/General_config.yaml')) as f:
         general_config = EasyDict(yaml.safe_load(f)['General_config'])
     print("Loaded the config files!")
+
     for i in range(num_times):
         config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
         if fix_seed:
@@ -311,3 +304,4 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,batch_size,accum_gr
         train_acc += wrapped_model.compute_metric(trainer=trainer, test_loader=dataloaders.train_dl, track='acc')
 
     return test_acc / num_times, val_acc / num_times, train_acc / num_times
+
