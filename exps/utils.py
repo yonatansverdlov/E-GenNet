@@ -268,7 +268,7 @@ def number_of_params(model: torch.nn.Module) -> int:
     return sum(p.numel() for p in model.parameters())
 
 
-def train_type_n_times(task: str, types: str, fix_seed: bool,
+def train_type_n_times(task: str, types: str, fix_seed: bool,batch_size,accum_grad,
                        metric_track='acc', train: bool = True, num_times: int = 1,epochs = 1500) -> torch.float:
     """
 
@@ -296,6 +296,9 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,
         if fix_seed:
             config.type_config.common_to_all_tasks.seed = i
         config.general_config.max_epochs = epochs
+        config.type_config.task_specific.batch_size = batch_size
+        config.type_config.task_specific.accum_grad = accum_grad
+        
         wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
                                                                 config=config,
                                                                 train=train, task=task)
