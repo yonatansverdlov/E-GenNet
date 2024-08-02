@@ -296,8 +296,8 @@ def train_type_n_times(task: str, types: str, fix_seed: bool,batch_size,accum_gr
         if fix_seed:
             config.type_config.common_to_all_tasks.seed = i
         config.general_config.max_epochs = epochs
-        config.type_config.task_specific.batch_size = batch_size
-        config.type_config.task_specific.accum_grad = accum_grad
+        config.type_config.task_specific[task].bs = batch_size
+        config.type_config.task_specific[task].accumulate_grad_batches = accum_grad
         
         wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
                                                                 config=config,
