@@ -13,15 +13,15 @@ parser.add_argument("--task", dest="task", default='B5', type=str, choices=['B5'
 parser.add_argument("--batch_size", dest="batch_size", default=20, type=int, required=False)
 
 args = parser.parse_args()
-if args.types == 'Kraken':
+if args.task == 'Kraken':
   accum_grad = 40 // args.batch_size
 else:
   accum_grad = 1
 
-test_acc, val_acc, train_acc = train_type_n_times(types=args.types, task=args.task, metric_track='acc', fix_seed=False,epochs=1200,batch_size = args.batch_size, accum_grad = accum_grad)
+test_acc, val_acc, train_acc = train_type_n_times(types=args.dataset_name, task=args.task, metric_track='acc', fix_seed=False,epochs=1200,batch_size = args.batch_size, accum_grad = accum_grad)
 
-print(f"Train acc {train_acc} in task {task}")
+print(f"Train acc {train_acc} in task {args.task}")
 
-print(f"Val acc {val_acc} in task {task}")
+print(f"Val acc {val_acc} in task {args.task}")
 
-print(f"Test acc {test_acc} in task {task}")
+print(f"Test acc {test_acc} in task {args.task}")
