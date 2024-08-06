@@ -75,7 +75,7 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
 
     """
     # The path to project.
-    path_to_project = Path(os.path.abspath(__file__)).parent.parent
+    path_to_project = Path(os.path.abspath(__file__)).parent.parent.parent
     # Init.
     model_path = 'Model_best'
     # Add all params.
@@ -85,7 +85,7 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
                              f'{model_path}')
     print(f"Saving into: {model_dir}")
     # Save the code our_exps.
-    if not os.path.exists(os.path.join(model_dir, 'code')):
+    if not os.path.exists(os.path.join(model_dir, 'code')) and False:
         shutil.copytree(Path(os.path.abspath(__file__)).parent, os.path.join(model_dir, 'code'))
     return path_to_project, model_dir
 
