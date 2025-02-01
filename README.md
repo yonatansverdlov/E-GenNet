@@ -21,6 +21,7 @@ Driven by applications in chemistry and various other scientific fields, we inve
 
 # Conda
 ```bash
+<<<<<<< HEAD
 conda create --name egenet -c conda-forge python=3.11
 
 conda activate egenet
@@ -36,6 +37,11 @@ pip install easydict
 pip install pandas
 
 pip install rdkit
+=======
+git clone git@github.com:yonatansverdlov/E-GenNet.git
+conda env create -f egenet_environment.yml
+conda activate egenet
+>>>>>>> Reinitialize egenet repository after moving
 ```
 
 ## Usage
@@ -44,6 +50,15 @@ For a sanity check of our model, please run
 ```bash
 python sanity_check.py
 ```
+<<<<<<< HEAD
+=======
+## Hard Example
+In order to show an exmaple of a pair, no I-GWL can seperate, we train our model on seperation such a pair.
+Run: 
+```bash
+python hard_example.py
+```
+>>>>>>> Reinitialize egenet repository after moving
 ## Synthetic experiments
 In this section, we illustrate our ability to separate the sparsest graphs and show that our model can separate pairs that no I-GGNN can separate and a pair that no I-GGNN can separate even when considering cross edges.
 We illustrate our results here and the baselines via Google Colab.

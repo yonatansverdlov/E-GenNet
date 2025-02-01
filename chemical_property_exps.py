@@ -1,8 +1,12 @@
 """
 The training of chemical properties.
 """
+<<<<<<< HEAD
 import sys
 from our_exps.utils import train_type_n_times
+=======
+from utils import train_type_n_times
+>>>>>>> Reinitialize egenet repository after moving
 from argparse import ArgumentParser
 
 parser = ArgumentParser()

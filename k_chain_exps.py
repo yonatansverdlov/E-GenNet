@@ -4,7 +4,11 @@ We first show our model can distinguish 12-chain paths using 7 blocks.
 Then, we show we can separate pair A in the paper.
 Then, we show we can separate pair B in the paper.
 """
+<<<<<<< HEAD
 from our_exps.utils import train_type_n_times
+=======
+from utils import train_type_n_times
+>>>>>>> Reinitialize egenet repository after moving
 
 num_times = 10
 

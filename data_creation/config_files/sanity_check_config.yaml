@@ -1,0 +1,29 @@
+sanity_check:
+  common_to_all_tasks:
+    num_atoms_type: 1
+    max_features: 60
+    train_size: 0.7
+    val_size: 0.1
+    seed: 0
+    edge_emb_dim: 16
+    node_emb_dim: 16
+    reshuffle_every_n_epochs: 1
+    check_val_every_n_epoch: 2
+    precision: 16-mixed
+    num_edge_features: 1
+  task_specific:
+    sanity:
+      num_blocks: [2]
+      intermediate_dim: [ 80 ]
+      o_3_output_dim: 20
+      s_n_output_dim: 20
+      lr: 0.001
+      wd: 0.00001
+      gamma: .85
+      bs: 20
+      cooldown: 15
+      accumulate_grad_batches: 2
+      alpha_beta_init: xavier
+      use_all_norms: True
+      norm_weight_init: uniform
+      block_ids: [0,6]
