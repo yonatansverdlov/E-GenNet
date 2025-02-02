@@ -22,7 +22,7 @@ if args.dataset_name == 'Kraken':
 else:
   accum_grad = 1
 
-test_acc, val_acc, train_acc = train_type_n_times(types=args.dataset_name, task=args.task, metric_track='acc', fix_seed=False,epochs=10,batch_size = batch_size, accum_grad = accum_grad)
+test_acc, val_acc, train_acc = train_type_n_times(types=args.dataset_name, task=args.task, metric_track='acc', fix_seed=False,epochs=1200,batch_size = batch_size, accum_grad = accum_grad)
 
 print(f"Train acc {train_acc} in task {args.task}")
 
