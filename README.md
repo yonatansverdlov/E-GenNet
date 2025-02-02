@@ -32,7 +32,6 @@ For a sanity check of our model, please run
 ```bash
 python sanity_check.py
 ```
-=======
 ## Hard Example
 In order to show an exmaple of a pair, no I-GWL can seperate, we train our model on seperation such a pair.
 Run: 
