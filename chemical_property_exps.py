@@ -1,12 +1,8 @@
 """
 The training of chemical properties.
 """
-<<<<<<< HEAD
-import sys
-from our_exps.utils import train_type_n_times
-=======
+import torch
 from utils import train_type_n_times
->>>>>>> Reinitialize egenet repository after moving
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
@@ -14,14 +10,20 @@ parser.add_argument("--dataset_name", dest="dataset_name", default='Kraken', typ
                     required=False)
 parser.add_argument("--task", dest="task", default='B5', type=str, choices=['B5','L','burB5','burL','ip','ea','chi'],
                     required=False)
-parser.add_argument("--batch_size", dest="batch_size", default=20, type=int, required=False)
 
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu');
+props = torch.cuda.get_device_properties(0) if torch.cuda.is_available() else None;
+batch_size = 5 if props and 'A10' in props.name else (20 if props and 'A40' in props.name else 5)
+print(batch_size)
 args = parser.parse_args()
 if args.dataset_name == 'Kraken':
-  accum_grad = 40 // args.batch_size
+  accum_grad = 40 // batch_size
 else:
   accum_grad = 1
-test_acc, val_acc, train_acc = train_type_n_times(types=args.dataset_name, task=args.task, metric_track='acc', fix_seed=False,epochs=1200,batch_size = args.batch_size, accum_grad = accum_grad)
+
+# 1200
+test_acc, val_acc, train_acc = train_type_n_times(types=args.dataset_name, task=args.task, metric_track='acc', fix_seed=False,epochs=10,batch_size = batch_size, accum_grad = accum_grad)
 
 print(f"Train acc {train_acc} in task {args.task}")
 

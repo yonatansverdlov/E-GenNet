@@ -334,7 +334,6 @@ def return_sets(task: str, types: str, fix_seed: bool = False,batch_size = 512,a
     Returns: The accuracy overall seeds.
 
     """
-    test_acc, val_acc, train_acc = .0, .0, .0
     path = Path(os.path.abspath(__file__)).parent
     with open(os.path.join(path, f'data/config_files/{types}_config.yaml')) as f:
         type_config = EasyDict(yaml.safe_load(f)[types])

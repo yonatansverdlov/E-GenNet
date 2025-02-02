@@ -6,24 +6,16 @@ import os
 from easydict import EasyDict
 import yaml
 from pathlib import Path
-<<<<<<< HEAD
-from our_exps.model.models import InvariantGenericNet
-=======
+
 from model.models import InvariantGenericNet
->>>>>>> Reinitialize egenet repository after moving
 
 types = 'sanity_check'
 
 path = Path(os.path.abspath(__file__)).parent
-<<<<<<< HEAD
-with open(os.path.join(path, f'our_exps/data/config_files/{types}_config.yaml')) as f:
-    type_config = EasyDict(yaml.safe_load(f)[types])
-with open(os.path.join(path, f'our_exps/data/config_files/General_config.yaml')) as f:
-=======
+
 with open(os.path.join(path, f'data_creation/config_files/{types}_config.yaml')) as f:
     type_config = EasyDict(yaml.safe_load(f)[types])
 with open(os.path.join(path, f'data_creation/config_files/General_config.yaml')) as f:
->>>>>>> Reinitialize egenet repository after moving
     general_config = EasyDict(yaml.safe_load(f)['General_config'])
 config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': 'sanity'})
 
