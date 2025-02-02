@@ -24,8 +24,6 @@ class Kraken(EnsembleDataset):
             root: The root to the data.
         """
         super().__init__(root=root)
-        out = torch.load(self.processed_paths[0])
-        self.data, self.slices, self.y = out
 
     @property
     def processed_file_names(self) -> str:

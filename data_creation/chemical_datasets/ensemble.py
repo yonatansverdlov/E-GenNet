@@ -4,8 +4,7 @@ Taken https://github.com/SXKDZ/MARCEL.
 """
 
 import torch
-from torch_geometric.data import InMemoryDataset
-
+from torch_geometric.data import InMemoryDataset, Data  # Import Data explicitly
 
 class EnsembleDataset(InMemoryDataset):
     def __init__(self, root: str):
@@ -15,7 +14,12 @@ class EnsembleDataset(InMemoryDataset):
             root: The root.
         """
         super().__init__(root)
-        out = torch.load(self.processed_paths[0])
+        
+        # Allowlist Data to enable loading
+        torch.serialization.add_safe_globals([Data])
+
+        # Load the file with full deserialization
+        out = torch.load(self.processed_paths[0], weights_only=False)
         self.data, self.slices, self.y = out
 
     def get_mean(self, target: str) -> float:

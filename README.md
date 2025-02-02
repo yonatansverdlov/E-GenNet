@@ -25,6 +25,7 @@ Driven by applications in chemistry and various scientific fields, we investigat
 ### **Using Conda**
 ```bash
 git clone git@github.com:yonatansverdlov/E-GenNet.git
+cd E-GenNet
 conda env create -f egenet_environment.yml
 conda activate egenet
 ```
@@ -57,7 +58,7 @@ For baselines, refer to the Colab notebook illustrating our tasks, results, and 
 We present our results on predicting chemical properties along with train/test/val accuracy.
 
 #### **Data**
-Please download the **Kraken, Drugs, and BDE** datasets from [MARCEL GitHub](https://github.com/SXKDZ/MARCEL) and place them in `/data`.
+Please download the **Kraken, Drugs, and BDE** datasets from [MARCEL GitHub](https://github.com/SXKDZ/MARCEL) and place them in `/dataset`.
 
 #### **Options**
 - `dataset_name` options: `Drugs`, `Kraken`, `BDE`
