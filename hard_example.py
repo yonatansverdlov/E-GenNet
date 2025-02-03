@@ -1,7 +1,7 @@
 """
 The training of chemical properties.
 """
-from utils import train_type_n_times
+from our_exps.utils import train_type_n_times
 
 
 test_acc, val_acc, train_acc = train_type_n_times(types='Hard', task='classify', metric_track='acc', fix_seed=False,epochs=200,batch_size = 1, accum_grad = 1)

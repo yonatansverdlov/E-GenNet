@@ -7,19 +7,20 @@ import shutil
 from pathlib import Path
 from typing import Dict, Tuple, List
 
-import pytorch_lightning as pl
+import lightning as pl
 import torch
 import yaml
 from easydict import EasyDict
 from torch_geometric.loader import DataLoader
 
-from .data.Datasets import BatchDataSet
-from .data.Datasets import k_chain_dataset
-from .data.chemical_datasets.BDE import BDE
-from .data.chemical_datasets.Drugs import Drugs
-from .data.chemical_datasets.Kraken import Kraken
-from .model.lightning_model import ModelWrapped
-from .model.models import GenericNet
+
+from data_creation.Datasets import BatchDataSet, k_chain_dataset, hard_dataset
+from data_creation.chemical_datasets.BDE import BDE
+from data_creation.chemical_datasets.Drugs import Drugs
+from data_creation.chemical_datasets.Kraken import Kraken
+from model.lightning_model import ModelWrapped
+from model.models import GenericNet
+from lightning.pytorch.callbacks import ModelCheckpoint
 
 
 class BasicTrainCallback(pl.Callback):
@@ -27,7 +28,7 @@ class BasicTrainCallback(pl.Callback):
     Callback created for shuffling every epoch.
     """
 
-    def on_train_epoch_end(self, trainer: pl.trainer, pl_module: pl.LightningModule) -> None:
+    def on_train_epoch_end(self, trainer: pl.Trainer, pl_module: pl.LightningModule) -> None:
         """
         On the training epoch end we shuffle the dataset.
         Args:
@@ -51,9 +52,10 @@ def return_dataloader(config: EasyDict, types: str, path_to_project: Path) -> Di
     Returns: The dataloader.
 
     """
-    if types in ['k_chain']:
+    if types == 'k_chain':
         dataloaders = return_classification_loader(config=config)
-
+    elif types == 'Hard': 
+        dataloaders = return_hard_loader(config = config) 
     else:
         dataloaders = return_drugs_loaders(config=config,
                                            path_to_project=path_to_project)
@@ -75,18 +77,16 @@ def return_model_path(config: EasyDict, task: str) -> Tuple[Path, str]:
 
     """
     # The path to project.
-    path_to_project = Path(os.path.abspath(__file__)).parent.parent.parent
+    path_to_project = Path(os.path.abspath(__file__)).parent.parent
     # Init.
     model_path = 'Model_best'
     # Add all params.
     # Path to the model dir.
     model_dir = os.path.join(path_to_project,
-                             f'data/models_new/{config.type}/{task}/'
+                             f'data/models/{config.type}/{task}/'
                              f'{model_path}')
     print(f"Saving into: {model_dir}")
     # Save the code our_exps.
-    if not os.path.exists(os.path.join(model_dir, 'code')) and False:
-        shutil.copytree(Path(os.path.abspath(__file__)).parent, os.path.join(model_dir, 'code'))
     return path_to_project, model_dir
 
 
@@ -105,8 +105,8 @@ def return_callbacks(model_dir: str, metric_track: str,
     """
     # The callbacks.
     # The model checkpoint.
-    mode = 'max' if metric_track == 'acc' and types == 'k_chain' else 'min'
-    callbacks = [pl.callbacks.ModelCheckpoint(dirpath=model_dir,
+    mode = 'max' if metric_track == 'acc' and types in ['k_chain','Hard'] else 'min'
+    callbacks = [ModelCheckpoint(dirpath=model_dir,
                                               filename='{epoch}-f{val_loss:.5f}' if metric_track == 'loss' else
                                               '{epoch}-f{val_acc:.5f}',
                                               save_top_k=save_top_k,
@@ -114,7 +114,7 @@ def return_callbacks(model_dir: str, metric_track: str,
                                               save_last=True, mode=mode)]
 
     # For drugs shuffling.
-    if types not in ['k_chain']:
+    if types not in ['k_chain','Hard']:
         callbacks.append(BasicTrainCallback())
     return callbacks
 
@@ -205,6 +205,22 @@ def return_classification_loader(config: EasyDict) -> EasyDict:
 
     return EasyDict(dataloaders)
 
+def return_hard_loader(config: EasyDict) -> EasyDict:
+    """
+    Given tuple type, we return the dataloader.
+    Args:
+        config: The config file.
+
+
+    Returns: The dataloader.
+
+    """
+    dataloader = DataLoader(hard_dataset(config=config))
+
+    dataloaders = {'train_dl': dataloader, 'test_dl': dataloader, 'val_dl': dataloader, 'mean': .0,
+                   'std': 1.0}
+
+    return EasyDict(dataloaders)
 
 def return_drugs_loaders(config: EasyDict, path_to_project: Path) -> EasyDict:
     """
@@ -277,16 +293,16 @@ def train_type_n_times(task: str, types: str, fix_seed: bool = False,batch_size 
 
     """
     test_acc, val_acc, train_acc = .0, .0, .0
-    path = Path(os.path.abspath(__file__)).parent
-    with open(os.path.join(path, f'data/config_files/{types}_config.yaml')) as f:
+    path = Path(os.path.abspath(__file__)).parent.parent
+    with open(os.path.join(path, f'data_creation/config_files/{types}_config.yaml')) as f:
         type_config = EasyDict(yaml.safe_load(f)[types])
-    with open(os.path.join(path, f'data/config_files/General_config.yaml')) as f:
+    with open(os.path.join(path, f'data_creation/config_files/General_config.yaml')) as f:
         general_config = EasyDict(yaml.safe_load(f)['General_config'])
     print("Loaded the config files!")
 
     for i in range(num_times):
         config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
-        if fix_seed:
+        if fix_seed:                
             config.type_config.common_to_all_tasks.seed = i
         config.general_config.max_epochs = epochs
         config.type_config.task_specific[task].bs = batch_size
@@ -305,3 +321,35 @@ def train_type_n_times(task: str, types: str, fix_seed: bool = False,batch_size 
 
     return test_acc / num_times, val_acc / num_times, train_acc / num_times
 
+def return_sets(task: str, types: str, fix_seed: bool = False,batch_size = 512,accum_grad = 1,
+                       metric_track='acc', train: bool = True, num_times: int = 1,epochs = 1500) -> torch.float:
+
+    """
+
+    Args:
+        task: The task.
+        types: The tuple type.
+        metric_track: What to track, acc/loss.
+        train: Whether train/test.
+    Returns: The accuracy overall seeds.
+
+    """
+    path = Path(os.path.abspath(__file__)).parent
+    with open(os.path.join(path, f'data/config_files/{types}_config.yaml')) as f:
+        type_config = EasyDict(yaml.safe_load(f)[types])
+    with open(os.path.join(path, f'data/config_files/General_config.yaml')) as f:
+        general_config = EasyDict(yaml.safe_load(f)['General_config'])
+    print("Loaded the config files!")
+
+    for i in range(num_times):
+        config = EasyDict({'type_config': type_config, 'general_config': general_config, 'type': types, 'task': task})
+        if fix_seed:
+            config.type_config.common_to_all_tasks.seed = i
+        config.general_config.max_epochs = epochs
+        config.type_config.task_specific[task].bs = batch_size
+        config.type_config.task_specific[task].accumulate_grad_batches = accum_grad
+        
+        wrapped_model, trainer, dataloaders, ckpt = train_model(types=types, metric_track=metric_track,
+                                                                config=config,
+                                                                train=False, task=task)
+        return dataloaders

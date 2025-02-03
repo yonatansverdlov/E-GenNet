@@ -2,7 +2,7 @@
 The training of chemical properties.
 """
 import torch
-from utils import train_type_n_times
+from our_exps.utils import train_type_n_times
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
