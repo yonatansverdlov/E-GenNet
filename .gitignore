@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# Project exclude paths
-=======
+
 ./data
 /data/
 # Byte-compiled / optimized / DLL files
@@ -22,6 +20,8 @@ downloads/
 eggs/
 pycache*
 __pycache__/
+__pycache__
+pycache
 .eggs/
 lib/
 lib64/
@@ -169,4 +169,3 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
->>>>>>> Reinitialize egenet repository after moving
