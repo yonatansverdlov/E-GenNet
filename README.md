@@ -1,5 +1,6 @@
 # **On the Expressive Power of Sparse Geometric MPNNs**  
 ![Graph Structures](images/graphs.png)
+
 ## **Overview**  
 
 This repo contains code for the experimental part of the paper **"On the Expressive Power of Sparse Geometric MPNNs"**.  
