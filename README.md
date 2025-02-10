@@ -74,4 +74,17 @@ For any questions or feedback, reach out to me at `yonatans@campus.technion.ac.i
 - **Yonatan Sverdlov** - yonatans@campus.technion.ac.il  
 - **Nadav Dym** - nadavdym@technion.ac.il  
 
+## Citation 
 
+```
+@inproceedings{sverdlov2025expressive,
+  title={On the Expressive Power of Sparse Geometric MPNNs},
+  author={Yonatan Sverdlov and Nadav Dym},
+  booktitle={International Conference on Learning Representations (ICLR)},
+  year={2025},
+  eprint={2407.02025},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2407.02025}
+}
+```
